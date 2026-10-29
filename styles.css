@@ -1,0 +1,449 @@
+/* ============================================================
+   Konrad Gourmet — Pantalla de inicio de sesión
+   ============================================================ */
+
+:root {
+  --naranja:        #F28705;
+  --naranja-claro:  #FFA42B;
+  --naranja-oscuro: #E06F00;
+
+  /* Degradado del fondo: izquierda -> derecha */
+  --fondo-izq:      #E4C2A6;
+  --fondo-der:      #C8956F;
+  --texto:          #3B3733;
+  --texto-suave:    #6B6560;
+  --placeholder:    #BDB7B1;
+  --borde:          #ECE6DF;
+  --blanco:         #FFFFFF;
+
+  --radio-card:  28px;
+  --radio-input: 14px;
+  --radio-btn:   16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--texto);
+  background: var(--fondo-izq);
+  overflow: hidden;
+}
+
+/* ---------- Escenario / fondo en video ---------- */
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  /* Fondo: degradado de izquierda a derecha */
+  background: linear-gradient(90deg, var(--fondo-izq) 0%, var(--fondo-der) 100%);
+}
+
+/* Video 3D: pegado al lateral derecho, de borde superior a borde inferior */
+.bg-video {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: clamp(340px, 50vw, 880px);
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* Velo suave para que la tarjeta respire sobre el fondo */
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(100deg,
+      rgba(255, 248, 238, .30) 0%,
+      rgba(255, 248, 238, .10) 36%,
+      rgba(255, 248, 238, 0)   58%);
+  pointer-events: none;
+}
+
+/* ---------- Formas decorativas naranjas ---------- */
+
+.deco {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Cuadrado redondeado inferior izquierdo */
+.deco--square {
+  left: -70px;
+  bottom: -60px;
+  width: 230px;
+  height: 230px;
+  border-radius: 48px;
+  transform: rotate(-12deg);
+  background: linear-gradient(145deg, var(--naranja-claro), var(--naranja));
+  box-shadow: 0 30px 60px rgba(226, 118, 0, .28);
+}
+
+/* Resplandor cálido detrás de la tarjeta */
+.deco--glow {
+  left: -120px;
+  top: -80px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 90, .55), rgba(255, 190, 90, 0) 68%);
+  filter: blur(10px);
+}
+
+/* ---------- Tarjeta ---------- */
+
+.login-card {
+  position: relative;
+  z-index: 4;
+  margin-left: clamp(16px, 4.5vw, 58px);
+  width: min(430px, calc(100% - 32px));
+  padding: 34px 36px 38px;
+  border-radius: var(--radio-card);
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, .85);
+  box-shadow:
+    0 30px 70px rgba(97, 64, 20, .18),
+    0 4px 14px rgba(97, 64, 20, .06);
+  animation: entrada .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes entrada {
+  from { opacity: 0; transform: translateY(26px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Marca ---------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.brand__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex: none;
+}
+
+.brand__name {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -.2px;
+}
+
+.brand__name span   { color: var(--texto); }
+.brand__name strong { color: var(--naranja); font-weight: 700; }
+
+.brand__tagline {
+  margin: 3px 0 0;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--texto-suave);
+  letter-spacing: .2px;
+}
+
+/* ---------- Bienvenida ---------- */
+
+.welcome {
+  margin: 0;
+  font-size: clamp(34px, 4.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  color: var(--texto);
+}
+
+.welcome span { color: var(--naranja); }
+
+.welcome__sub {
+  margin: 8px 0 24px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+/* ---------- Campos ---------- */
+
+.field { margin-bottom: 16px; }
+
+.field__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio-input);
+  transition: border-color .22s ease, box-shadow .22s ease;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--naranja-claro);
+  box-shadow: 0 0 0 4px rgba(242, 135, 5, .12);
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  flex: none;
+  color: #C3BCB4;
+  transition: color .22s ease;
+}
+
+.input-icon svg { width: 19px; height: 19px; }
+
+.input-wrap:focus-within .input-icon { color: var(--naranja); }
+
+.input-wrap input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 50px;
+  padding: 0 8px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto);
+}
+
+.input-wrap input::placeholder {
+  color: var(--placeholder);
+  font-weight: 400;
+}
+
+/* Autocompletado del navegador: mantener el fondo blanco */
+.input-wrap input:-webkit-autofill,
+.input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--texto);
+  box-shadow: 0 0 0 1000px var(--blanco) inset;
+}
+
+/* Ojo mostrar / ocultar */
+.input-toggle {
+  flex: none;
+  width: 46px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #BDB7B1;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.input-toggle:hover { color: var(--naranja); }
+.input-toggle svg   { width: 19px; height: 19px; }
+
+.input-toggle .icon-eye              { display: none; }
+.input-toggle.is-visible .icon-eye   { display: block; }
+.input-toggle.is-visible .icon-eye-off { display: none; }
+
+/* ---------- Recordarme / olvidé ---------- */
+
+.form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 24px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.check input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.check__box {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.8px solid #DCD5CD;
+  border-radius: 6px;
+  background: var(--blanco);
+  color: var(--blanco);
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.check__box svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.check input:checked + .check__box {
+  background: var(--naranja);
+  border-color: var(--naranja);
+}
+
+.check input:checked + .check__box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.check input:focus-visible + .check__box {
+  box-shadow: 0 0 0 4px rgba(242, 135, 5, .18);
+}
+
+.check__label {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+.forgot {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--naranja);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.forgot:hover {
+  color: var(--naranja-oscuro);
+  text-decoration: underline;
+}
+
+/* ---------- Botón ---------- */
+
+.btn-login {
+  width: 100%;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--radio-btn);
+  background: linear-gradient(135deg, #FA9113 0%, var(--naranja) 55%, var(--naranja-oscuro) 100%);
+  color: var(--blanco);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .1px;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(226, 118, 0, .34);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.btn-login svg {
+  width: 18px;
+  height: 18px;
+  transition: transform .22s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(226, 118, 0, .42);
+  filter: brightness(1.03);
+}
+
+.btn-login:hover svg { transform: translateX(4px); }
+
+.btn-login:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(226, 118, 0, .3);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  body { overflow: auto; }
+
+  .stage {
+    justify-content: center;
+    padding: 32px 16px;
+    min-height: 100dvh;
+    height: auto;
+    background: linear-gradient(160deg, var(--fondo-izq) 0%, var(--fondo-der) 100%);
+  }
+
+  /* En pantallas angostas el video pasa detrás de la tarjeta, difuminado */
+  .bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .3;
+  }
+
+  .bg-overlay {
+    position: fixed;
+    background: rgba(255, 248, 238, .38);
+  }
+
+  .login-card {
+    margin-left: 0;
+    width: min(430px, 100%);
+  }
+
+  .deco--square { width: 170px; height: 170px; left: -60px; }
+}
+
+@media (max-width: 420px) {
+  .login-card { padding: 26px 22px 30px; border-radius: 24px; }
+  .brand__logo { width: 44px; height: 44px; }
+  .welcome { font-size: 32px; }
+}
+
+/* ---------- Accesibilidad ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}

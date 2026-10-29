@@ -1,0 +1,15 @@
+# Claude Code (estado local de herramientas)
+.claude/
+
+# Windows / OneDrive
+Thumbs.db
+ehthumbs.db
+desktop.ini
+*.tmp
+
+# macOS
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
